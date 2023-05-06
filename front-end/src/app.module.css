@@ -52,7 +52,22 @@ a {
 .buttons {
   display: flex;
   gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
 }
+
+.buttons div{
+  color:white;
+  background-color: #0d6efd;
+  border-radius: 5px;
+  padding: 7px;
+  height: 40px;
+  margin: auto;
+  font-weight: 300;
+  text-align: center;
+}
+
 
 .data-loading {
   color: #0d6efd;

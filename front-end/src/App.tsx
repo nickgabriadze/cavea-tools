@@ -200,6 +200,8 @@ export const App = () => {
         >
           <img src={"/move-right-icon.svg"} />
         </button>
+
+        <div>{referencedData.length} Tools</div>
       </div>
     </div>
   );
