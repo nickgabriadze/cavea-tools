@@ -7,3 +7,67 @@ a {
   text-decoration: none;
 }
 
+.items{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 10px;
+}
+
+.desc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -16px;
+}
+
+.desc p {
+  border: 1px solid #0d6efd;
+  padding: 5px;
+}
+
+.each-tool{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #0d6efd;
+  
+}
+
+
+
+
+
+.tool-table{
+  display: flex;
+  flex-direction: column;
+}
+
+.tools-grid{
+  display: grid;
+  grid-template-columns: repeat(1, minmax(100px, 1fr));
+  grid-template-rows: repeat(20, minmax(50px, 1fr));
+  width: 100%;
+}
+.buttons{
+  display: flex;
+  gap: 1rem;
+}
+
+.data-loading{
+  color:#0d6efd
+}
+
+.new-tool-filter{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+}

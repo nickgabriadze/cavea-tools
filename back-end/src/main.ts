@@ -59,7 +59,7 @@ const Inventory = sequalize.define(
 
 const insertBulk = () => {
   Inventory.findAll({ raw: true }).then((data) => {
-    if (data.length < 300000) {
+    if (data.length === 0) {
       Inventory.bulkCreate(generateDataInBulk());
     }
   });
@@ -69,7 +69,7 @@ insertBulk();
 
 server.get("/inventories", async (_, res) => {
   try {
-    const data = await Inventory.findAll({ raw: true, order: ['itemName']});
+    const data = await Inventory.findAll({ raw: true, order: [['itemName', 'ASC'], ['itemPrice', 'ASC']]});
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -83,8 +83,7 @@ server.delete("/inventories/:inventoryID", async (req, res) => {
       where: {
         id: itemID,
       },
-    }).then((response) => {
-      console.log(response);
+    }).then(() => {
       res.sendStatus(200);
     });
   } catch (err) {

@@ -109,7 +109,7 @@ export const AddItem = () => {
                 onChange={(e) =>
                   setItemInfo({
                     ...itemInfo,
-                    name: e.target.value,
+                    name: (e.target.value).trim(),
                   })
                 }
               />
