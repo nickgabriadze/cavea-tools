@@ -28,6 +28,7 @@ export const AddItem = () => {
         <img
           className={addItemStyles["tools-icon"]}
           src={"/tool-icon.svg"}
+          draggable={false}
         />
         <p>{message}</p>
         <button
@@ -74,6 +75,7 @@ export const AddItem = () => {
           <img
             className={addItemStyles["tools-icon"]}
             src={"/tool-icon.svg"}
+            draggable={false}
           />
           <h5 className="fs-5">დაამატეთ სასურველი ნივთი</h5>
           <div className="d-flex flex-column gap-2">
