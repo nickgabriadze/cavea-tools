@@ -9,7 +9,7 @@ server.use(cors());
 server.use(express.json());
 dotenv.config();
 const sequalize = new Sequelize(
-  "cavetools",
+  "cavetools", //database name
   "postgres",
   process.env.DB_PASSWORD,
   {
