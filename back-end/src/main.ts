@@ -67,9 +67,9 @@ const insertBulk = () => {
 
 insertBulk();
 
-server.get("/inventories", async (req, res) => {
+server.get("/inventories", async (_, res) => {
   try {
-    const data = await Inventory.findAll({ raw: true });
+    const data = await Inventory.findAll({ raw: true, order: ['itemName']});
     res.send(data);
   } catch (err) {
     console.log(err);
