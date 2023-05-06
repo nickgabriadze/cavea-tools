@@ -29,51 +29,84 @@ const testDbConnection = async () => {
 
 testDbConnection();
 
-const Inventory = sequalize.define("Inventory", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-    autoIncrement: true
+const Inventory = sequalize.define(
+  "Inventory",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
+    itemName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    itemLocation: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    itemPrice: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
-  itemName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  itemLocation: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  itemPrice: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  }
-
-}, {
+  {
     freezeTableName: true,
-    timestamps: false
-});
-
-
+    timestamps: false,
+  }
+);
 
 const insertBulk = () => {
-    Inventory.findAll({raw:true}).then((data) => {
-    if(data.length < 300000){
-        Inventory.bulkCreate((generateDataInBulk()))
-    }})
-}
+  Inventory.findAll({ raw: true }).then((data) => {
+    if (data.length < 300000) {
+      Inventory.bulkCreate(generateDataInBulk());
+    }
+  });
+};
 
 insertBulk();
 
-
 server.get("/inventories", async (req, res) => {
-    try {
-       const data = await Inventory.findAll({raw:true});
-       res.send(data);
-    }catch(err){
-        console.log(err)
-    }
-})
+  try {
+    const data = await Inventory.findAll({ raw: true });
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+server.delete("/inventories/:inventoryID", async (req, res) => {
+  try {
+    const itemID = req.params.inventoryID;
+    Inventory.destroy({
+      where: {
+        id: itemID,
+      },
+    }).then((response) => {
+      console.log(response);
+      res.sendStatus(200);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+server.post("/inventories", async (req, res) => {
+  try {
+   
+    const { place, name, price } = req.body;
+    Inventory.create({
+      itemName: name,
+      itemLocation: place,
+      itemPrice: price,
+    }).then(() => {
+      res.sendStatus(200);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 server.listen(3001, () => {
   console.log("up and running");

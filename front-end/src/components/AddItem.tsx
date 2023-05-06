@@ -1,12 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import addItemStyles from "./addItem.module.css";
 import { useState } from "react";
-
+import axios from "axios";
 export interface Tool {
   place: string;
   name: string;
   price: number;
 }
+
+const addItemToInventory = async (item: Tool) => {
+  return axios.post("http://localhost:3001/inventories", item);
+};
 
 export const AddItem = () => {
   const [itemInfo, setItemInfo] = useState<Tool>({
@@ -23,7 +27,7 @@ export const AddItem = () => {
       <div className={addItemStyles["pop-up"]}>
         <img
           className={addItemStyles["tools-icon"]}
-          src={"/public/tool-icon.svg"}
+          src={"/tool-icon.svg"}
         />
         <p>{message}</p>
         <button
@@ -38,7 +42,7 @@ export const AddItem = () => {
     );
   };
 
-  const checker = () => {
+  const checker = async () => {
     if (
       itemInfo.name.trim().length === 0 ||
       itemInfo.price === -1 ||
@@ -46,7 +50,12 @@ export const AddItem = () => {
     ) {
       setRequestInfo("არც ერთი ველი არ უნდა იყოს ცარიელი");
     } else {
-      setRequestInfo("ნივთი დაემატა წარმატებით!");
+      const request = await addItemToInventory(itemInfo);
+      if (request.data === "OK") {
+        setRequestInfo("ნივთი დაემატა წარმატებით!");
+      } else {
+        setRequestInfo("დაფიქსირდა შეცდომა, გთხოვთ, სცადოთ თავიდან!");
+      }
     }
 
     setPopUp(true);
@@ -64,7 +73,7 @@ export const AddItem = () => {
         >
           <img
             className={addItemStyles["tools-icon"]}
-            src={"/public/tool-icon.svg"}
+            src={"/tool-icon.svg"}
           />
           <h5 className="fs-5">დაამატეთ სასურველი ნივთი</h5>
           <div className="d-flex flex-column gap-2">
