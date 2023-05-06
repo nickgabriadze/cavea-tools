@@ -69,7 +69,33 @@ insertBulk();
 
 server.get("/inventories", async (_, res) => {
   try {
-    const data = await Inventory.findAll({ raw: true, order: [['itemName', 'ASC'], ['itemPrice', 'ASC']]});
+    const data = await Inventory.findAll({
+      raw: true,
+      order: [
+        ["itemName", "ASC"],
+        ["itemPrice", "ASC"],
+      ],
+    });
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+server.get("/inventories/:filterByLocation", async (req, res) => {
+  try {
+    const location = req.params.filterByLocation;
+    const data = await Inventory.findAll({
+      raw: true,
+      where: {
+        itemLocation: location,
+      },
+      order: [
+        ["itemName", "ASC"],
+        ["itemPrice", "ASC"],
+      ],
+    });
+
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -93,7 +119,6 @@ server.delete("/inventories/:inventoryID", async (req, res) => {
 
 server.post("/inventories", async (req, res) => {
   try {
-   
     const { place, name, price } = req.body;
     Inventory.create({
       itemName: name,

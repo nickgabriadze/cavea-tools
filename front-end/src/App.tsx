@@ -28,11 +28,10 @@ export const App = () => {
   const [trackedIndex, setTrackedIndex] = useState(20);
   const [toManipulate, setToManipulate] = useState<FetchedTools[]>([]);
   useEffect(() => {
-    
     setToManipulate(referencedData.slice(0, 20));
   }, [referencedData]);
 
-  const changeLocation = (value: number) => {
+  const changeLocation = async (value: number) => {
     const locations = [
       "ყველა",
       "მთავარი ოფისი",
@@ -45,16 +44,13 @@ export const App = () => {
     const location = locations[value];
     if (location === "ყველა") {
       setReferencedData(() => [...data]);
-     
     } else {
-      setReferencedData(() => [
-        ...data.filter(
-          (eachTool) => eachTool.itemLocation === locations[value]
-        ),
-      ]);
-      
+      const requestToFilter = await axios.get(
+        `http://localhost:3001/inventories/${locations[value]}`
+      );
+      const filtereData = requestToFilter.data;
+      setReferencedData(() => [...filtereData]);
     }
- 
   };
 
   const pagination = (leftOrRight: boolean) => {
@@ -116,6 +112,10 @@ export const App = () => {
 
   if (error) {
     alert("There was an error");
+  }
+
+  if (isLoading === true) {
+    return <h1>Loading...</h1>;
   }
 
   return (
