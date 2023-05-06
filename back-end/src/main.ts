@@ -18,7 +18,7 @@ const sequalize = new Sequelize(
   }
 );
 
-const testDbConnection = async () => {
+const testDBConnection = async () => {
   try {
     await sequalize.authenticate();
     console.log("Connection has been established successfully.");
@@ -27,7 +27,7 @@ const testDbConnection = async () => {
   }
 };
 
-testDbConnection();
+testDBConnection();
 
 const Inventory = sequalize.define(
   "Inventory",
