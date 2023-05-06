@@ -20,3 +20,23 @@ body {
   gap: 2rem;
 }
 
+
+
+.pop-up{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    height: fit-content;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: aliceblue;
+    text-align: center;
+    padding: 20px;
+    gap: 2rem;
+    border:1px solid #0d6efd;
+    border-radius: 20px;
+}

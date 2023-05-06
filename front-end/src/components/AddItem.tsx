@@ -2,18 +2,59 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import addItemStyles from "./addItem.module.css";
 import { useState } from "react";
 
+export interface Tool {
+  place: string;
+  name: string;
+  price: number;
+}
+
 export const AddItem = () => {
-  const [itemInfo, setItemInfo] = useState<{
-    place: string;
-    name: string;
-    price: number;
-  }>({ place: "მთავარი ოფისი", name: "", price: 0 });
+  const [itemInfo, setItemInfo] = useState<Tool>({
+    place: "მთავარი ოფისი",
+    name: "",
+    price: -1,
+  });
+
+  const [popUp, setPopUp] = useState<boolean>(false);
+  const [requestInfo, setRequestInfo] = useState<string>("")
 
 
-  
+  const PopUpBox = ({ message }: { message: string }) => {
+    return (
+      <div className={addItemStyles["pop-up"]}>
+        <img
+        className={addItemStyles["tools-icon"]}
+        src={"/public/tool-icon.svg"}
+      />
+        <p>{message}</p>
+        <button type="button" className="btn btn-secondary" aria-label="Close"
+        onClick={() => setPopUp(prev => !prev)}
+        >
+          დახურვა
+        </button>
+      </div>
+    );
+  };
+
+  const checker = () => {
+    if (
+      itemInfo.name.trim().length === 0 ||
+      itemInfo.price === -1
+    ) {
+        setRequestInfo("არც ერთი ველი არ უნდა იყოს ცარიელი")
+    }else{
+        setRequestInfo("ნივთი დაემატა წარმატებით!")
+    }
+
+    setPopUp(true)
+  };
+
+  const blurStyle = {
+    "filter": "blur(5px)"
+  }
   return (
-    <section className={addItemStyles["for-new-item"]}>
-      
+    <>
+    <section className={addItemStyles["for-new-item"]} style={popUp ? blurStyle : {}} >
       <img
         className={addItemStyles["tools-icon"]}
         src={"/public/tool-icon.svg"}
@@ -74,10 +115,19 @@ export const AddItem = () => {
           <label>ნივთის ფასი(ლარებში)</label>
         </div>
       </div>
-      <button type="button" className="btn btn-primary" aria-label="Close">
+      <button
+        type="button"
+        className="btn btn-primary"
+        aria-label="Submit"
+        onClick={() => checker()}
+      >
         დამატება
       </button>
+
+      
     </section>
+    {popUp && <PopUpBox message={requestInfo} />}
+    </>
   );
 };
 
